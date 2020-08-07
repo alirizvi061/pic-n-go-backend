@@ -7,7 +7,11 @@ const PORT = process.env.PORT || 3003;
 const MONGODB_URI = "mongodb://localhost:27017/picngo";
 
 //middleware
-const whitelist = ["http://localhost:3000", "http://localhost:3003"];
+const whitelist = [
+  "http://localhost:3000",
+  "http://localhost:3003",
+  "https://pic-n-go.herokuapp.com/",
+];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) != -1) {
