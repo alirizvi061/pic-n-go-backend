@@ -4,7 +4,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 3003;
-const MONGODB_URI = "mongodb://localhost:27017/picngo";
+const MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://localhost:27017/picngo";
 
 //middleware
 const whitelist = [
@@ -14,7 +15,7 @@ const whitelist = [
 ];
 const corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) != -1) {
+    if (whitelist.indexOf(origin) != -1 || origin == undefined) {
       callback(null, true);
     } else {
       console.log(origin);
@@ -22,7 +23,7 @@ const corsOptions = {
     }
   },
 };
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
