@@ -13,6 +13,7 @@ users.post("/", (req, res) => {
   console.log(req);
 
   User.create(req.body, (err, createdUser) => {
+    console.log(req.body);
     if (err) {
       res.status(400).json({ error: err.message });
     }
