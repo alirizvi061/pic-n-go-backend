@@ -12,6 +12,7 @@ const whitelist = [
   "http://localhost:3000",
   "http://localhost:3003",
   "https://pic-n-go.herokuapp.com/",
+  "https://pic-n-go.herokuapp.com/users",
 ];
 const corsOptions = {
   origin: function (origin, callback) {
