@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 users.use(bodyParser.urlencoded({ extended: true }));
 users.use(express.json());
 
+//USER ROUTES
 users.post("/", (req, res) => {
   console.log(res);
   console.log(req);
@@ -52,5 +53,5 @@ users.put("/:id", (req, res) => {
     }
   );
 });
-
+//USER ROUTES END
 module.exports = users;
