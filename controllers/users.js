@@ -11,6 +11,33 @@ const SECURITY_TOKEN =
 users.use(bodyParser.urlencoded({ extended: true }));
 users.use(express.json());
 
+//ITEM ROUTES
+users.put("/list", (req, res) => {
+  console.log("hitting back end route");
+  console.log(res);
+  User.findById({ _id: req.body._id }, (err, foundUser) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+    }
+    res.status(200).json({ foundUser });
+  });
+  //assuming we got the user, take the user and $push URL to the userPiclist array in DB
+  // use .save function on the user to save the URL to the userPicList
+  //what params are being sent from the front end to the back end.
+
+  // User.findOneAndUpdate(
+  //   { username: req.params.user },
+  //   { $push: { toDoList: req.params.title } },
+  //   { new: true },
+  //   (err, updatedUser) => {
+  //     if (err) {
+  //       res.status(400).json({ error: err.message });
+  //     }
+  //     res.status(200).json(updatedUser);
+  //   }
+  // );
+});
+
 //USER ROUTES
 users.post("/login", (req, res) => {
   console.log(req.body.password);
@@ -27,6 +54,7 @@ users.post("/login", (req, res) => {
         { expiresIn: "1h" }
       );
       res.status(200).json({
+        userId: user.id,
         username: user.username,
         securityToken: securityToken,
       });
@@ -81,4 +109,5 @@ users.put("/:id", (req, res) => {
   );
 });
 //USER ROUTES END
+
 module.exports = users;
