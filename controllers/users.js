@@ -28,13 +28,23 @@ users.put("/list", (req, res) => {
 
 //USER ROUTES
 users.post("/login", (req, res) => {
-  console.log(req.body.password);
-  User.findOne({ username: req.body.username }, (err, user) => {
+  // console.log(req.body);
+  // console.log(req.body.password);
+  User.findOne({
+    username: req.body.username
+  }, (err, user) => {
+    console.log(user)
     if (err) {
       res.status(400).json({ error: err.message });
     }
+    // console.log(req.body);
+
+    // let hash = req.body.password
+
+    console.log(req.body.password)
+    console.log(user.password)
+
     if (bcrypt.compareSync(req.body.password, user.password)) {
-      // console.log(req.body.password);
       console.log(user.password);
       let securityToken = jwt.sign(
         { username: user.username },
@@ -97,6 +107,15 @@ users.put("/:id", (req, res) => {
     }
   );
 });
+
+users.get('/:id', (req, res) => {
+  User.findById(req.params.id, (err, foundUser) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+    }
+    res.status(200).json(foundUser);
+  })
+})
 //USER ROUTES END
 
 module.exports = users;
