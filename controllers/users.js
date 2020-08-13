@@ -42,6 +42,7 @@ users.post("/login", (req, res) => {
         { expiresIn: "1h" }
       );
       res.status(200).json({
+        userPicList: user.userPicList,
         userId: user.id,
         username: user.username,
         securityToken: securityToken,
