@@ -26,8 +26,27 @@ users.put("/list", (req, res) => {
   });
 });
 
-users.delete('/list/deleteitem', (req, res) => {
-  console.log("delete route being hit")
+users.delete('/deleteitem', (req, res) => {
+  // console.log("delete route being hit")
+  // console.log(req.body.userId)
+  // console.log(req.body.picture)
+
+  User.findById({ _id: req.body.userId }, (err, foundUser) => {
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+    if (foundUser) {
+      console.log("user is found")
+      console.log(foundUser.userPicList)
+      foundUser.userPicList.pull(req.body.picture);
+      console.log(foundUser.userPicList)
+
+      foundUser.save((err, deletedItem) => {
+        res.status(200).json({ deletedItem });
+      });
+    }
+    // res.status(200).json({ message: "Item Deleted" });
+  })
 })
 
 //USER ROUTES
