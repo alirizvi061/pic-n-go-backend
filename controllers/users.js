@@ -26,28 +26,40 @@ users.put("/list", (req, res) => {
   });
 });
 
-users.delete('/deleteitem', (req, res) => {
-  // console.log("delete route being hit")
-  // console.log(req.body.userId)
-  // console.log(req.body.picture)
+users.put('/deleteitem/:id', (req, res) => {
 
-  User.findById({ _id: req.body.userId }, (err, foundUser) => {
+  User.findOneAndUpdate({ _id: req.params.id }, { $pull: { userPicList: { $in: req.body.picture } } }, { multi: true }, (err, foundUser) => {
     if (err) {
       return res.status(400).json({ error: err.message });
     }
-    if (foundUser) {
-      console.log("user is found")
-      console.log(foundUser.userPicList)
-      foundUser.userPicList.pull(req.body.picture);
-      console.log(foundUser.userPicList)
+    res.status(200).json({ foundUser })
 
-      foundUser.save((err, deletedItem) => {
-        res.status(200).json({ deletedItem });
-      });
-    }
-    // res.status(200).json({ message: "Item Deleted" });
+    // if(foundUser) {
+    //   foundUser.userPicList.splice(req.body.picture);
+    //   foundUser.save((err, deletedItem) => {
+    // res.status(200).json({ deletedItem });
+    //   });
+    // }
   })
 })
+
+// users.put('/deleteitem/:id', (req, res) => {
+//   console.log('hitting delete route')
+//   console.log(req.body)
+//   User.findById({ _id: req.params.id }, { picture: req.body.picture }, (err, updatedUser) => {
+//     if (err) {
+//       return res.status(400).json({ error: err.message });
+//     } else {
+//       console.log(res.json())
+//       foundUser.userPiclist.pull(picture)
+//       foundUser.save((err, updatedUser) => {
+//         res.status(200).json({ updatedUser });
+//         //   console.log(foundUser.userPicList)
+//       });
+//       console.log(foundUser.userPicList)
+//     }
+//   })
+// })
 
 //USER ROUTES
 users.post("/login", (req, res) => {
