@@ -26,6 +26,10 @@ users.put("/list", (req, res) => {
   });
 });
 
+users.delete('/list/deleteitem', (req, res) => {
+  console.log("delete route being hit")
+})
+
 //USER ROUTES
 users.post("/login", (req, res) => {
   User.findOne({ username: req.body.username }, (err, user) => {

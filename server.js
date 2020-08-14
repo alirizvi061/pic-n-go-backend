@@ -61,8 +61,7 @@ app.use("/users", usersController);
 // app.use("/picks", picksController);
 
 app.get("/", (req, res) => {
-  console.log("hello world");
-  res.send("hello world");
+  res.redirect("/home");
 });
 
 app.listen(PORT, () => {
