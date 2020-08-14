@@ -28,29 +28,15 @@ users.put("/list", (req, res) => {
 
 //USER ROUTES
 users.post("/login", (req, res) => {
-  // console.log(req.body);
-  // console.log(req.body.password);
-  User.findOne({
-    username: req.body.username
-  }, (err, user) => {
-    console.log(user)
+  User.findOne({ username: req.body.username }, (err, user) => {
     if (err) {
       res.status(400).json({ error: err.message });
     }
-    // console.log(req.body);
-
-    // let hash = req.body.password
-
-    console.log(req.body.password)
-    console.log(user.password)
-
     if (bcrypt.compareSync(req.body.password, user.password)) {
-      console.log(user.password);
       let securityToken = jwt.sign(
         { username: user.username },
         SECURITY_TOKEN,
-        { expiresIn: "1h" }
-      );
+        { expiresIn: "1h" });
       res.status(200).json({
         userPicList: user.userPicList,
         userId: user.id,
@@ -58,22 +44,30 @@ users.post("/login", (req, res) => {
         securityToken: securityToken,
       });
     } else {
-      res.status(401).json({ message: "username/password not found" });
+      res.status(401).json({ message: "username/password not found" })
     }
   });
 });
+
 
 users.post("/", (req, res) => {
   console.log(res);
   console.log(req);
 
-  User.create(req.body, (err, createdUser) => {
-    console.log(req.body);
-    if (err) {
-      res.status(400).json({ error: err.message });
+  User.findOne({ username: req.body.username }, (err, foundUser) => {
+    if (foundUser == null) {
+      req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
+      User.create(req.body, (err, createdUser) => {
+        console.log(req.body);
+        if (err) {
+          res.status(400).json({ error: err.message });
+        }
+        res.status(200).json(createdUser);
+      });
+    } else {
+      res.status(401).json({ messages: "user already exists" });
     }
-    res.status(200).json(createdUser);
-  });
+  })
 });
 
 users.get("/", (req, res) => {
