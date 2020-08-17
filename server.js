@@ -62,9 +62,9 @@ app.use("/users", usersController);
 // const picksController = require("./controllers/picks.js");
 // app.use("/picks", picksController);
 
-app.get("/", (req, res) => {
-  res.redirect("/home");
-});
+// app.get("/", (req, res) => {
+//   res.redirect("/home");
+// });
 
 app.listen(PORT, () => {
   console.log("listening on PORT: ", PORT);
