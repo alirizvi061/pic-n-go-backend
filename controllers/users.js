@@ -20,6 +20,7 @@ users.put("/list", (req, res) => {
       res.status(400).json({ error: err.message });
     }
     foundUser.userPicList.push(req.body.image);
+    foundUser.notes.push(req.body.notes);
     foundUser.save((err, updatedUser) => {
       res.status(200).json({ updatedUser });
     });
@@ -33,12 +34,6 @@ users.put('/deleteitem/:id', (req, res) => {
       return res.status(400).json({ error: err.message });
     }
     res.status(200).json({ foundUser })
-    // if(foundUser) {
-    //   foundUser.userPicList.splice(req.body.picture);
-    //   foundUser.save((err, deletedItem) => {
-    // res.status(200).json({ deletedItem });
-    //   });
-    // }
   })
 })
 
