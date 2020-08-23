@@ -12,7 +12,6 @@ const whitelist = [
   "http://localhost:3000",
   "http://localhost:3003",
   "https://pic-n-go.herokuapp.com",
-  "https://pic-n-go.herokuapp.com/users",
 ];
 const corsOptions = {
   origin: function (origin, callback) {
@@ -62,8 +61,16 @@ app.use("/users", usersController);
 // const picksController = require("./controllers/picks.js");
 // app.use("/picks", picksController);
 
+//Trying to get the home page to render once user logs out
+app.get('/users', (req, res) => {
+  res.render('/home', {
+    loggedIn: false
+  })
+})
+
+//Trying to render the home page on initial load
 app.get("/", (req, res) => {
-  res.redirect("/users");
+  res.render("/users");
 });
 
 app.listen(PORT, () => {
