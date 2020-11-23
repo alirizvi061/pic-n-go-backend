@@ -12,6 +12,8 @@ const whitelist = [
   "http://localhost:3000",
   "http://localhost:3003",
   "https://pic-n-go.herokuapp.com",
+  "http://pic-n-go.herokuapp.com",
+  "https://api.unsplash.com/"
 ];
 const corsOptions = {
   origin: function (origin, callback) {
