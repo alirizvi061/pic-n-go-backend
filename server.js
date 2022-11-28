@@ -13,7 +13,8 @@ const whitelist = [
   "http://localhost:3003",
   "https://pic-n-go.herokuapp.com",
   "http://pic-n-go.herokuapp.com",
-  "https://api.unsplash.com/"
+  "https://api.unsplash.com/",
+  "https://shiny-rugelach-94ba83.netlify.app/"
 ];
 const corsOptions = {
   origin: function (origin, callback) {
