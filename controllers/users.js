@@ -13,13 +13,12 @@ users.use(express.json());
 
 //ITEM ROUTES
 users.put("/list", (req, res) => {
-  console.log("hitting back end route");
-  console.log(res);
   User.findById({ _id: req.body._id }, (err, foundUser) => {
     if (err) {
       res.status(400).json({ error: err.message });
     }
     foundUser.userPicList.push(req.body.image);
+    foundUser.notes.push(req.body.notes)
     foundUser.save((err, updatedUser) => {
       res.status(200).json({ updatedUser });
     });
@@ -85,14 +84,10 @@ users.post("/login", (req, res) => {
 
 
 users.post("/", (req, res) => {
-  console.log(res);
-  console.log(req);
-
   User.findOne({ username: req.body.username }, (err, foundUser) => {
     if (foundUser == null) {
       req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
       User.create(req.body, (err, createdUser) => {
-        console.log(req.body);
         if (err) {
           res.status(400).json({ error: err.message });
         }
